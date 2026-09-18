@@ -1,171 +1,586 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Libridge — tecnologia, acessibilidade e aplicações na saúde com reconhecimento de Libras.">
-    <title>Libridge | Tecnologia que conecta pessoas</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Projeto Libridge | Tecnologia, Acessibilidade e Saúde</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            yellow: '#FFDE21',
+                            dark: '#0f0f0f',
+                            cardDark: '#1a1a1a',
+                            cardLight: '#ffffff',
+                            lightBg: '#f9fafb'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f9fafb;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+            --card-border: #e5e7eb;
+            --primary: #FFDE21;
+            --primary-hover: #facc15;
+            --accent-text: #111827;
+        }
+
+        .dark {
+            --bg-color: #0b0b0b;
+            --text-color: #f3f4f6;
+            --card-bg: #161616;
+            --card-border: #262626;
+            --primary: #FFDE21;
+            --primary-hover: #facc15;
+            --accent-text: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .custom-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .custom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -10px rgba(255, 222, 33, 0.15);
+            border-color: #FFDE21;
+        }
+
+        /* Smooth reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFDE21;
+        }
+    </style>
 </head>
-<body>
-    <div class="progress"></div>
+<body class="antialiased selection:bg-[#FFDE21] selection:text-black">
 
-    <header class="header">
-        <a class="logo" href="#inicio" aria-label="Libridge - início">
-            <span class="logo-mark">✋</span>
-            <span>Libri<span>dge</span></span>
-        </a>
+    <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-opacity-80 dark:bg-opacity-80 bg-[var(--bg-color)] border-b border-[var(--card-border)] transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-[#FFDE21] flex items-center justify-center text-black font-extrabold text-xl shadow-lg group-hover:scale-105 transition-transform">
+                    L
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-lg tracking-tight text-[var(--accent-text)]">LIBRIDGE</span>
+                    <span class="text-xs text-yellow-500 font-semibold tracking-widest uppercase">Inovação & Saúde</span>
+                </div>
+            </a>
 
-        <nav class="nav" aria-label="Navegação principal">
-            <a class="active" href="#inicio">Início</a>
-            <a href="#sobre">Sobre</a>
-            <a href="#tecnologia">Tecnologia</a>
-            <a href="#aplicacoes">Aplicações</a>
-            <a href="#futuro">Futuro</a>
-            <a href="#contato">Contato</a>
-        </nav>
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#tecnologia" class="hover:text-[#FFDE21] transition-colors">Tecnologia</a>
+                <a href="#projeto" class="hover:text-[#FFDE21] transition-colors">O Projeto</a>
+                <a href="#saude" class="hover:text-[#FFDE21] transition-colors">Saúde</a>
+                <a href="#educacao" class="hover:text-[#FFDE21] transition-colors">Educação</a>
+                <a href="#inclusao" class="hover:text-[#FFDE21] transition-colors">Inclusão</a>
+            </nav>
 
-        <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
-            <span>☼</span><i></i><span>☾</span>
-        </button>
+            <!-- Actions -->
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" aria-label="Alternar tema" class="w-10 h-10 rounded-full custom-card flex items-center justify-center text-[var(--accent-text)] hover:text-[#FFDE21] transition-colors">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+                <a href="#projeto" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#FFDE21] text-black font-bold text-sm shadow-md hover:bg-yellow-400 transition-all transform hover:-translate-y-0.5">
+                    Conhecer Projeto
+                </a>
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" aria-label="Menu" class="md:hidden w-10 h-10 rounded-xl custom-card flex items-center justify-center text-[var(--accent-text)]">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
 
-        <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">☰</button>
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-[var(--card-border)] bg-[var(--card-bg)] px-6 py-6 space-y-4 shadow-2xl">
+            <a href="#tecnologia" class="block text-base font-medium hover:text-[#FFDE21] transition-colors">Tecnologia & Acessibilidade</a>
+            <a href="#projeto" class="block text-base font-medium hover:text-[#FFDE21] transition-colors">O Projeto Libridge</a>
+            <a href="#saude" class="block text-base font-medium hover:text-[#FFDE21] transition-colors">Área da Saúde</a>
+            <a href="#educacao" class="block text-base font-medium hover:text-[#FFDE21] transition-colors">Educação e Futuro</a>
+            <a href="#inclusao" class="block text-base font-medium hover:text-[#FFDE21] transition-colors">Inclusão e Comunicação</a>
+        </div>
     </header>
 
-    <main>
-        <section class="hero section" id="inicio">
-            <div class="hero-copy reveal">
-                <div class="eyebrow"><span></span> TECNOLOGIA E INCLUSÃO</div>
-                <h1>Libri<span>dge</span></h1>
-                <h2>Tecnologia que conecta pessoas.</h2>
-                <p>Um projeto que reconhece sinais de Libras por meio da câmera do computador, usando inteligência artificial e uma mão robótica para ampliar as possibilidades de comunicação.</p>
-                <a class="button" href="#sobre">Conheça o projeto <b>→</b></a>
-            </div>
+    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+        <!-- Background Glow effects -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[#FFDE21] opacity-10 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div class="hero-visual reveal">
-                <div class="scan-grid"></div>
-                <div class="gesture">
-                    <span class="corner c1"></span><span class="corner c2"></span>
-                    <span class="corner c3"></span><span class="corner c4"></span>
-                    <div class="hand">🤟</div>
-                    <span class="tag">Libras: EU</span>
-                    <span class="scan-line"></span>
-                </div>
-                <div class="robot-hand">🦾</div>
-                <div class="glow"></div>
-            </div>
-        </section>
-
-        <section class="section tech" id="tecnologia">
-            <div class="section-intro reveal">
-                <div class="eyebrow"><span></span> TECNOLOGIA E ACESSIBILIDADE</div>
-                <h2>Tecnologia a serviço da <strong>inclusão.</strong></h2>
-                <p>A tecnologia pode reduzir barreiras de comunicação. Recursos como VLibras, legendagem, transcrição automática, comunicação por vídeo e inteligência artificial criam novas possibilidades de acessibilidade.</p>
-            </div>
-
-            <div class="feature-grid">
-                <article class="feature-card reveal"><div class="icon">✋</div><h3>VLibras</h3><p>Traduz conteúdos em português para Libras.</p></article>
-                <article class="feature-card reveal"><div class="icon">CC</div><h3>Legendagem</h3><p>Facilita a compreensão de vídeos e conteúdos audiovisuais.</p></article>
-                <article class="feature-card reveal"><div class="icon">▤</div><h3>Transcrição</h3><p>Converte fala em texto de forma rápida.</p></article>
-                <article class="feature-card reveal"><div class="icon">▣</div><h3>Vídeo</h3><p>Conecta pessoas em tempo real.</p></article>
-                <article class="feature-card reveal"><div class="icon">AI</div><h3>IA + Libras</h3><p>Reconhecimento e tradução de sinais com inteligência artificial.</p></article>
-            </div>
-        </section>
-
-        <section class="section project dark-section" id="sobre">
-            <div class="project-visual reveal">
-                <div class="laptop">
-                    <div class="screen">
-                        <div class="screen-top"><b>● Libridge</b><span>Reconhecendo sinais...</span></div>
-                        <div class="camera-box"><div class="mini-hand">🤟</div></div>
-                        <div class="result"><small>Sinal identificado:</small><strong>EU</strong></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-[#FFDE21]/30 bg-[#FFDE21]/10 text-[#FFDE21] text-xs md:text-sm font-semibold tracking-wide">
+                        <i class="fa-solid fa-sparkles"></i>
+                        <span>Inovação que Conecta Vidas</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                        Tecnologia e Acessibilidade com o <span class="text-[#FFDE21]">Projeto Libridge</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-500 dark:text-gray-400 font-normal max-w-2xl mx-auto lg:mx-0">
+                        Reconhecimento de sinais de Libras por inteligência artificial e visão computacional. Ampliando barreiras de comunicação e transformando o atendimento na saúde e educação.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#projeto" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#FFDE21] text-black font-bold text-base shadow-xl hover:bg-yellow-400 transition-all transform hover:-translate-y-1 text-center">
+                            Explorar o Projeto <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                        <a href="#tecnologia" class="w-full sm:w-auto px-8 py-4 rounded-2xl custom-card text-[var(--accent-text)] font-semibold text-base hover:border-[#FFDE21] transition-all text-center">
+                            Saiba Mais
+                        </a>
                     </div>
                 </div>
-                <div class="robot">🦾</div>
-            </div>
 
-            <div class="project-copy reveal">
-                <div class="eyebrow"><span></span> O PROJETO</div>
-                <h2>O Projeto <strong>LIBRIDGE</strong></h2>
-                <p>O Libridge busca reconhecer sinais de Libras por meio da câmera do computador. Diferente do VLibras, o sistema identifica e interpreta os movimentos das mãos.</p>
-                <p>A mão robótica complementa o projeto e amplia as possibilidades de interação.</p>
-                <div class="stats">
-                    <div><strong>01</strong><span>Câmera</span></div>
-                    <div><strong>02</strong><span>Reconhecimento</span></div>
-                    <div><strong>03</strong><span>Interação</span></div>
+                <!-- Hero Interactive Visual Card -->
+                <div class="lg:col-span-5">
+                    <div class="custom-card p-6 md:p-8 rounded-3xl relative shadow-2xl overflow-hidden group">
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-[#FFDE21] opacity-20 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500"></div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+                                <span class="text-xs uppercase tracking-wider font-bold text-gray-400">Live AI Interpeters</span>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-[#FFDE21]/20 text-[#FFDE21] text-xs font-bold">Libridge Core</span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-2xl bg-[var(--bg-color)] border border-[var(--card-border)] flex items-center space-x-4">
+                                <div class="w-12 h-12 rounded-xl bg-[#FFDE21] text-black flex items-center justify-center text-xl font-bold shrink-0">
+                                    <i class="fa-solid fa-hand-holding-heart"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Tradução em Tempo Real</h4>
+                                    <p class="text-xs text-gray-400">Reconhecimento inteligente de movimentos</p>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-[var(--bg-color)] border border-[var(--card-border)] flex items-center space-x-4">
+                                <div class="w-12 h-12 rounded-xl bg-gray-800 text-[#FFDE21] flex items-center justify-center text-xl font-bold shrink-0">
+                                    <i class="fa-solid fa-hospital-user"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Foco em Hospitais e Triagens</h4>
+                                    <p class="text-xs text-gray-400">Agilidade e inclusão na saúde pública</p>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-[var(--bg-color)] border border-[var(--card-border)] flex items-center space-x-4">
+                                <div class="w-12 h-12 rounded-xl bg-[#FFDE21] text-black flex items-center justify-center text-xl font-bold shrink-0">
+                                    <i class="fa-solid fa-robot"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Mão Robótica Integrada</h4>
+                                    <p class="text-xs text-gray-400">Ampliação das possibilidades de interação</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <section class="section health" id="aplicacoes">
-            <div class="health-copy reveal">
-                <div class="eyebrow"><span></span> APLICAÇÃO NA ÁREA DA SAÚDE</div>
-                <h2>Comunicação mais <strong>acessível</strong> na saúde.</h2>
-                <p>O Libridge pode facilitar a comunicação entre pessoas com perda auditiva total ou parcial que utilizem Libras e profissionais da saúde.</p>
-                <p>Seu uso pode ser explorado em hospitais, clínicas e postos de saúde.</p>
-            </div>
-
-            <div class="health-visual reveal">
-                <div class="medical-screen">
-                    <div class="doctor">👩‍⚕️</div>
-                    <div class="monitor"><span>LIBRIDGE</span><b>🤟</b><small>Reconhecimento ativo</small></div>
-                </div>
-                <div class="use-list">
-                    <div>✋ <span>Consultas</span></div>
-                    <div>▣ <span>Triagens</span></div>
-                    <div>ⓘ <span>Orientações</span></div>
-                    <div>✚ <span>Emergências</span></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section future dark-section" id="futuro">
-            <div class="future-copy reveal">
-                <div class="future-icon">◆</div>
-                <div>
-                    <div class="eyebrow"><span></span> EDUCAÇÃO E POSSIBILIDADES FUTURAS</div>
-                    <h2>Um projeto com espaço para <strong>evoluir.</strong></h2>
-                    <p>O Libridge também pode auxiliar na educação em saúde e na capacitação de profissionais em Libras. Futuramente, seu reconhecimento de movimentos poderá ser explorado em novas áreas, após testes e validações específicas.</p>
-                </div>
-            </div>
-
-            <div class="future-grid">
-                <div class="future-card reveal"><span>▤</span><b>Educação<br>em saúde</b></div>
-                <div class="future-card reveal"><span>♟</span><b>Capacitação de<br>profissionais</b></div>
-                <div class="future-card reveal"><span>↗</span><b>Fisioterapia</b></div>
-                <div class="future-card reveal"><span>♥</span><b>Reabilitação</b></div>
-                <div class="future-card reveal"><span>◉</span><b>Terapia<br>ocupacional</b></div>
-            </div>
-        </section>
-
-        <section class="section inclusion" id="contato">
-            <div class="inclusion-copy reveal">
-                <div class="eyebrow"><span></span> INCLUSÃO E COMUNICAÇÃO</div>
-                <h2>Mais do que tecnologia,<br><strong>é sobre pessoas.</strong></h2>
-                <p>O Libridge deve ser visto como uma ferramenta de auxílio à inclusão e não como substituto do intérprete humano. Seu objetivo é ampliar a acessibilidade, facilitar a interação e diminuir barreiras de comunicação.</p>
-            </div>
-
-            <div class="quote reveal">
-                <span>“</span>
-                <blockquote>Comunicação acessível<br>abre caminhos para<br><strong>mais inclusão.</strong></blockquote>
-            </div>
-
-            <div class="hands reveal">
-                <div>🫱</div><div>🦾</div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <a class="logo" href="#inicio"><span class="logo-mark">✋</span><span>Libri<span>dge</span></span></a>
-        <div class="footer-links">
-            <a href="#inicio">Início</a><a href="#sobre">Sobre</a><a href="#tecnologia">Tecnologia</a><a href="#aplicacoes">Aplicações</a><a href="#futuro">Futuro</a>
         </div>
-        <p>Juntos por uma comunicação sem barreiras.</p>
-        <small>© 2026 Libridge. Projeto acadêmico.</small>
+    </section>
+
+    <section id="tecnologia" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-[#FFDE21] font-bold text-sm uppercase tracking-widest">Inclusão Digital</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold mt-2 mb-4">Tecnologia e Acessibilidade</h2>
+                <p class="text-gray-500 dark:text-gray-400 text-base md:text-lg">
+                    A tecnologia é um pilar fundamental para promover a inclusão e a acessibilidade na sociedade moderna. Conheça as principais ferramentas que transformam a comunicação atual.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="custom-card p-8 rounded-3xl reveal flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-[#FFDE21] text-black flex items-center justify-center text-2xl font-bold mb-6 shadow-md">
+                            <i class="fa-solid fa-hands-asl-interpreting"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">VLibras</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                            Ferramenta essencial traduzindo conteúdos em português de forma automática para Libras, facilitando o acesso à informação digital.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-[var(--card-border)] flex items-center text-xs font-semibold text-[#FFDE21]">
+                        <span>Recurso Consolidado</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="custom-card p-8 rounded-3xl reveal flex flex-col justify-between" style="transition-delay: 100ms;">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-[#FFDE21] text-black flex items-center justify-center text-2xl font-bold mb-6 shadow-md">
+                            <i class="fa-solid fa-closed-captioning"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Legendagem</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                            Garante que conteúdos audiovisuais, palestras e mídias sejam plenamente acessíveis para pessoas com perda auditiva total ou parcial.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-[var(--card-border)] flex items-center text-xs font-semibold text-[#FFDE21]">
+                        <span>Acessibilidade Visual</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="custom-card p-8 rounded-3xl reveal flex flex-col justify-between" style="transition-delay: 200ms;">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-[#FFDE21] text-black flex items-center justify-center text-2xl font-bold mb-6 shadow-md">
+                            <i class="fa-solid fa-microphone-lines"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Transcrição Automática</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                            Conversão veloz de voz em texto em tempo real, otimizando reuniões, aulas e transmissões ao vivo.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-[var(--card-border)] flex items-center text-xs font-semibold text-[#FFDE21]">
+                        <span>Tempo Real</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="custom-card p-8 rounded-3xl reveal flex flex-col justify-between" style="transition-delay: 300ms;">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-[#FFDE21] text-black flex items-center justify-center text-2xl font-bold mb-6 shadow-md">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Inteligência Artificial</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                            Utilizada no reconhecimento avançado de padrões e na tradução de Libras, criando novas e revolucionárias formas de comunicação.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-[var(--card-border)] flex items-center text-xs font-semibold text-[#FFDE21]">
+                        <span>Inovação de Ponta</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projeto" class="py-24 bg-[var(--card-bg)] border-y border-[var(--card-border)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-6 space-y-6 reveal">
+                    <span class="text-[#FFDE21] font-bold text-sm uppercase tracking-widest">O Inovador</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold leading-tight">O Projeto Libridge</h2>
+                    <p class="text-gray-500 dark:text-gray-400 text-base leading-relaxed">
+                        O Libridge busca reconhecer sinais de Libras por meio da câmera do computador. Diferente do VLibras, que traduz principalmente conteúdos em português para Libras, o sistema identifica e interpreta os movimentos das mãos de forma inteligente.
+                    </p>
+                    <p class="text-gray-500 dark:text-gray-400 text-base leading-relaxed">
+                        Além disso, a <strong>mão robótica</strong> complementa o projeto e amplia consideravelmente as possibilidades de interação física e digital.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                        <div class="p-4 rounded-2xl bg-[var(--bg-color)] border border-[var(--card-border)] flex items-center space-x-3">
+                            <i class="fa-solid fa-camera text-[#FFDE21] text-xl"></i>
+                            <span class="text-sm font-semibold">Câmera e Visão Computacional</span>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-[var(--bg-color)] border border-[var(--card-border)] flex items-center space-x-3">
+                            <i class="fa-solid fa-microchip text-[#FFDE21] text-xl"></i>
+                            <span class="text-sm font-semibold">Mão Robótica Exclusiva</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 reveal">
+                    <div class="custom-card p-8 md:p-10 rounded-3xl relative overflow-hidden shadow-2xl border-2 border-[#FFDE21]/30">
+                        <div class="absolute top-0 right-0 bg-[#FFDE21] text-black text-xs font-extrabold px-4 py-1.5 rounded-bl-2xl uppercase tracking-wider">
+                            Diferencial Técnico
+                        </div>
+                        <h3 class="text-2xl font-bold mb-6 flex items-center">
+                            <i class="fa-solid fa-eye text-[#FFDE21] mr-3"></i> Como o Libridge Funciona?
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-[#FFDE21] text-black font-bold flex items-center justify-center shrink-0 mt-1">1</div>
+                                <div>
+                                    <h4 class="font-bold text-base mb-1">Captura por Câmera</h4>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">A câmera do dispositivo captura os gestos realizados pelo usuário em tempo real.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-[#FFDE21] text-black font-bold flex items-center justify-center shrink-0 mt-1">2</div>
+                                <div>
+                                    <h4 class="font-bold text-base mb-1">Interpretação por IA</h4>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">O sistema identifica os sinais de Libras e traduz os movimentos das mãos em comandos ou texto legível.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-[#FFDE21] text-black font-bold flex items-center justify-center shrink-0 mt-1">3</div>
+                                <div>
+                                    <h4 class="font-bold text-base mb-1">Interação Robótica</h4>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">A mão robótica atua complementando a resposta, expandindo as aplicações práticas do sistema.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="saude" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-[#FFDE21] font-bold text-sm uppercase tracking-widest">Impacto Social</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold mt-2 mb-4">Aplicação na Área da Saúde</h2>
+                <p class="text-gray-500 dark:text-gray-400 text-base md:text-lg">
+                    Na saúde, o Libridge pode facilitar a comunicação entre pessoas com perda auditiva total ou parcial que utilizem Libras e profissionais da medicina e enfermagem.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card Hospitais -->
+                <div class="custom-card p-8 rounded-3xl reveal">
+                    <div class="w-16 h-16 rounded-2xl bg-[#FFDE21] text-black flex items-center justify-center text-2xl font-bold mb-6 shadow-md">
+                        <i class="fa-solid fa-hospital"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Hospitais e Clínicas</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-6">
+                        Pode ser aplicado em hospitais, clínicas e postos de saúde, auxiliando diretamente em consultas médicas e exames de rotina.
+                    </p>
+                    <ul class="space-y-2 text-xs font-medium text-gray-400">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-[#FFDE21] mr-2"></i> Diagnóstico preciso</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-[#FFDE21] mr-2"></i> Diálogo médico-paciente</li>
+                    </ul>
+                </div>
+
+                <!-- Card Triagens -->
+                <div class="custom-card p-8 rounded-3xl reveal" style="transition-delay: 150ms;">
+                    <div class="w-16 h-16 rounded-2xl bg-[#FFDE21] text-black flex items-center justify-center text-2xl font-bold mb-6 shadow-md">
+                        <i class="fa-solid fa-clipboard-user"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Triagens e Orientações</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-6">
+                        Agiliza o processo de triagem inicial e a transmissão de orientações farmacêuticas e de cuidados básicos de saúde.
+                    </p>
+                    <ul class="space-y-2 text-xs font-medium text-gray-400">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-[#FFDE21] mr-2"></i> Triagem humanizada</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-[#FFDE21] mr-2"></i> Instruções claras de medicação</li>
+                    </ul>
+                </div>
+
+                <!-- Card Emergências -->
+                <div class="custom-card p-8 rounded-3xl reveal" style="transition-delay: 300ms;">
+                    <div class="w-16 h-16 rounded-2xl bg-[#FFDE21] text-black flex items-center justify-center text-2xl font-bold mb-6 shadow-md">
+                        <i class="fa-solid fa-truck-medical"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Situações de Emergência</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-6">
+                        Em momentos críticos onde cada segundo conta, o sistema reduz drasticamente barreiras de comunicação em pronto-socorros.
+                    </p>
+                    <ul class="space-y-2 text-xs font-medium text-gray-400">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-[#FFDE21] mr-2"></i> Resposta rápida</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-[#FFDE21] mr-2"></i> Atendimento de urgência</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="educacao" class="py-24 bg-[var(--card-bg)] border-y border-[var(--card-border)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-6 reveal">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="custom-card p-6 rounded-3xl text-center space-y-3">
+                            <div class="w-12 h-12 rounded-xl bg-[#FFDE21] text-black mx-auto flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <h4 class="font-bold text-sm">Educação em Saúde</h4>
+                            <p class="text-xs text-gray-400">Capacitação contínua de profissionais em Libras.</p>
+                        </div>
+                        <div class="custom-card p-6 rounded-3xl text-center space-y-3 mt-8">
+                            <div class="w-12 h-12 rounded-xl bg-[#FFDE21] text-black mx-auto flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-bone"></i>
+                            </div>
+                            <h4 class="font-bold text-sm">Fisioterapia</h4>
+                            <p class="text-xs text-gray-400">Monitoramento e reabilitação motora assistida.</p>
+                        </div>
+                        <div class="custom-card p-6 rounded-3xl text-center space-y-3">
+                            <div class="w-12 h-12 rounded-xl bg-[#FFDE21] text-black mx-auto flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                            </div>
+                            <h4 class="font-bold text-sm">Reabilitação</h4>
+                            <p class="text-xs text-gray-400">Exercícios guiados com reconhecimento de gestos.</p>
+                        </div>
+                        <div class="custom-card p-6 rounded-3xl text-center space-y-3 mt-8">
+                            <div class="w-12 h-12 rounded-xl bg-[#FFDE21] text-black mx-auto flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <h4 class="font-bold text-sm">Futuro Ampliado</h4>
+                            <p class="text-xs text-gray-400">Validações clínicas e testes específicos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 space-y-6 reveal">
+                    <span class="text-[#FFDE21] font-bold text-sm uppercase tracking-widest">Horizonte Tecnológico</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold leading-tight">Educação e Possibilidades Futuras</h2>
+                    <p class="text-gray-500 dark:text-gray-400 text-base leading-relaxed">
+                        O Libridge também pode auxiliar na educação em saúde e na capacitação de profissionais em Libras, criando um ecossistema mais preparado e empático.
+                    </p>
+                    <p class="text-gray-500 dark:text-gray-400 text-base leading-relaxed">
+                        Futuramente, seu reconhecimento de movimentos poderá ser explorado em áreas como <strong>fisioterapia, reabilitação e terapia ocupacional</strong>, após rigorosos testes e validações específicas.
+                    </p>
+                    <div class="flex items-center space-x-3 pt-2">
+                        <div class="w-3 h-3 rounded-full bg-[#FFDE21]"></div>
+                        <span class="text-sm font-semibold">Tecnologia em constante evolução para o bem-estar humano.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="inclusao" class="py-24 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+            <div class="custom-card p-10 md:p-14 rounded-3xl relative shadow-2xl border-2 border-[#FFDE21]/30">
+                <div class="w-16 h-16 rounded-2xl bg-[#FFDE21] text-black flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-lg">
+                    <i class="fa-solid fa-users-viewfinder"></i>
+                </div>
+                <span class="text-[#FFDE21] font-bold text-sm uppercase tracking-widest">Filosofia do Projeto</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold mt-2 mb-6">Inclusão e Comunicação</h2>
+                <p class="text-base md:text-lg text-gray-500 dark:text-gray-400 leading-relaxed mb-8 max-w-2xl mx-auto">
+                    O Libridge deve ser visto como uma <strong>ferramenta de auxílio à inclusão</strong> e não como substituto do intérprete humano. Seu objetivo principal é ampliar a acessibilidade, facilitar a interação e diminuir barreiras de comunicação para pessoas com perda auditiva total ou parcial.
+                </p>
+                <div class="inline-flex items-center space-x-3 px-6 py-3 rounded-2xl bg-[#FFDE21]/10 border border-[#FFDE21]/30 text-[#FFDE21] font-bold text-sm">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Tecnologia humana, inclusiva e complementar.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[var(--card-bg)] border-t border-[var(--card-border)] py-12 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-[#FFDE21] flex items-center justify-center text-black font-extrabold text-sm">
+                    L
+                </div>
+                <span class="font-extrabold text-base tracking-tight text-[var(--accent-text)]">PROJETO LIBRIDGE</span>
+            </div>
+
+            <p class="text-xs text-gray-400 text-center md:text-left">
+                &copy; 2026 Projeto Libridge. Tecnologia, Acessibilidade e Saúde para todos.
+            </p>
+
+            <div class="flex items-center space-x-4">
+                <a href="#tecnologia" class="text-xs text-gray-400 hover:text-[#FFDE21] transition-colors">Tecnologia</a>
+                <a href="#projeto" class="text-xs text-gray-400 hover:text-[#FFDE21] transition-colors">Libridge</a>
+                <a href="#saude" class="text-xs text-gray-400 hover:text-[#FFDE21] transition-colors">Saúde</a>
+            </div>
+        </div>
     </footer>
 
-    <button class="back-top" id="backTop" aria-label="Voltar ao topo">↑</button>
-    <script src="script.js"></script>
+    <script>
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        // Check for saved theme preference or default to dark
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'light') {
+            htmlElement.classList.remove('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            htmlElement.classList.add('dark');
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Scroll Reveal Animation (Intersection Observer)
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, {
+            root: null,
+            threshold: 0.15
+        });
+
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+    </script>
 </body>
 </html>
